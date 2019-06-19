@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace ClipboardTranslate
 {
-    public partial class Form1 : Form
+    public partial class Form1 : RoundView
     {
         string data = null;
         int timer = 0;
@@ -25,13 +25,6 @@ namespace ClipboardTranslate
             add_Size = Size.Height - label1.Height;
             ConfigManager.Load(translater);
         }
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(int nLeftRect
-                                                      , int nTopRect
-                                                      , int nRightRect
-                                                      , int nBottomRect
-                                                      , int nWidthEllipse
-                                                      , int nHeightEllipse);
 
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -116,12 +109,10 @@ namespace ClipboardTranslate
                 timer2.Enabled = true;
                 Opacity = 0;
                 Height = label1.Height + add_Size;
-                Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 7, 7));
             }
         }
         public void onHide()
         {
-
             Visible = false;
             timer2.Enabled = false;
             Opacity = 0;
@@ -138,12 +129,6 @@ namespace ClipboardTranslate
                 if (Opacity < 1) Opacity = Math.Min(Opacity + 0.15, 1);
             }
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 7, 7));
-        }
-
         private void notifyIcon1_Click(object sender, EventArgs e)
         {
             Application.Exit();
