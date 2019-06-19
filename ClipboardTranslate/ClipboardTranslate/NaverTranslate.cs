@@ -11,7 +11,6 @@ namespace ClipboardTranslate
 {
     class NaverTranslate : Translate
     {
-        public Dictionary<string, string> Keys = new Dictionary<string, string>();
         public int now = 0;
         public NaverTranslate() : base("Naver")
         {

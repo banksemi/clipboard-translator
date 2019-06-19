@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ClipboardTranslate
 {
-    abstract class Translate
+    public abstract class Translate
     {
+        public Dictionary<string, string> Keys = new Dictionary<string, string>();
         private Dictionary<string, string> cache = new Dictionary<string, string>();
         string Name = null;
         public Translate(string Name)

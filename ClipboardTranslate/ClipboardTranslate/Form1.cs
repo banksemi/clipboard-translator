@@ -23,6 +23,7 @@ namespace ClipboardTranslate
         {
             InitializeComponent();
             add_Size = Size.Height - label1.Height;
+            ConfigManager.Load(translater);
         }
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(int nLeftRect
