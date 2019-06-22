@@ -14,6 +14,21 @@ namespace ClipboardTranslate
     {
         private const string path = "Config.json";
         private static JObject ReadingData = null;
+        private static JObject InitSetting
+        {
+            get
+            {
+                JObject json = new JObject();
+                json["select"] = "naver";
+                json["naver"] = new JObject();
+                json["naver"]["key"] = new JObject();
+                json["naver"]["setting"] = new JObject();
+                json["naver"]["key"]["example_id1"] = "secret_key";
+                json["naver"]["key"]["example_id2"] = "secret_key";
+                json["naver"]["setting"]["type"] = "NMT";
+                return json;
+            }
+        }
         public static bool CreateFile(bool replace = false)
         {
             if (File.Exists(path))
@@ -23,10 +38,7 @@ namespace ClipboardTranslate
                 else
                     return false;
             }
-            JObject json = new JObject();
-            json["example_id1"] = "secret_key";
-            json["example_id2"] = "secret_key";
-            File.WriteAllText(path, json.ToString());
+            File.WriteAllText(path, InitSetting.ToString());
             return true;
         }
         public static void Load(Translate translater)
@@ -35,10 +47,15 @@ namespace ClipboardTranslate
                 CreateFile(true);
             translater.Keys.Clear();
             ReadingData = JObject.Parse(File.ReadAllText(path));
-            foreach(JProperty property in (JToken)ReadingData)
+            foreach (JProperty property in ReadingData[translater.Name]["key"])
             {
                 if (!property.Name.Contains("example"))
                     translater.Keys.Add(property.Name, (string)property.Value);
+            }
+            foreach (JProperty property in ReadingData[translater.Name]["setting"])
+            {
+                if (!property.Name.Contains("example"))
+                    translater.Settings.Add(property.Name, (string)property.Value);
             }
             if (translater.Keys.Count == 0)
             {

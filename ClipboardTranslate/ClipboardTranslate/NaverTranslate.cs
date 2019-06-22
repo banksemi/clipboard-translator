@@ -12,7 +12,7 @@ namespace ClipboardTranslate
     class NaverTranslate : Translate
     {
         public int now = 0;
-        public NaverTranslate() : base("Naver")
+        public NaverTranslate() : base("naver")
         {
             
         }
@@ -126,7 +126,12 @@ namespace ClipboardTranslate
         }
         public override string Method(string data)
         {
-            return NMT2(data);
+            if (Settings["type"] == "NMT")
+                return NMT(data);
+            else if (Settings["type"] == "SMT")
+                return SMT(data);
+            else
+                return NMT2(data);
         }
     }
 }

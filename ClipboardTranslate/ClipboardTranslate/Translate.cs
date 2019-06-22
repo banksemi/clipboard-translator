@@ -9,8 +9,9 @@ namespace ClipboardTranslate
     public abstract class Translate
     {
         public Dictionary<string, string> Keys = new Dictionary<string, string>();
+        public Dictionary<string, string> Settings = new Dictionary<string, string>();
         private Dictionary<string, string> cache = new Dictionary<string, string>();
-        string Name = null;
+        public string Name = null;
         public Translate(string Name)
         {
             this.Name = Name;
