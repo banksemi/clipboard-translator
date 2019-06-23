@@ -81,12 +81,11 @@ namespace ClipboardTranslate
             }
         }
 
-        public string NMT2(string data)
+        public string NMTFromCacheServer(string url, string data)
         {
             if (Keys.Count <= now) return "번역 최대 용량 초과";
             try
             {
-                string url = "https://easyrobot.co.kr/NMT.php";
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Timeout = 4000;
                 request.Headers.Add("X-Naver-Client-Id", Keys.ToArray()[now].Key);
@@ -119,7 +118,7 @@ namespace ClipboardTranslate
                 if (e.Message.IndexOf("010") >= 0)
                 {
                     now++;
-                    return NMT2(data);
+                    return NMTFromCacheServer(url, data);
                 }
                 return "[에러] " + e.Message;
             }
@@ -130,8 +129,10 @@ namespace ClipboardTranslate
                 return NMT(data);
             else if (Settings["type"] == "SMT")
                 return SMT(data);
+            else if (Settings["type"] == "CacheServer")
+                return NMTFromCacheServer("https://easyrobot.co.kr/NMT.php", data);
             else
-                return NMT2(data);
+                return NMTFromCacheServer(Settings["type"], data);
         }
     }
 }
